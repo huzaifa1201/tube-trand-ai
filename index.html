@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TubeTrend AI - Privacy Policy & Terms</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* 3D Canvas Background */
+        #canvas3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem auto;
+            max-width: 600px;
+            padding: 0 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Content Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        p, li {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        ul {
+            margin-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        li::marker {
+            color: #667eea;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 1.5rem 0;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            margin: 1rem 0;
+            color: #666;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #764ba2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .tab-nav { flex-direction: column; gap: 1rem; }
+            .card { padding: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas3d"></canvas>
+
+    <header>
+        <div class="header-content">
+            <h1>🎥 TubeTrend AI</h1>
+            <p class="subtitle">Privacy Policy & Terms of Service</p>
+        </div>
+    </header>
+
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('privacy')">Privacy Policy</button>
+        <button class="tab-btn" onclick="showTab('terms')">Terms & Conditions</button>
+    </div>
+
+    <div class="container">
+        <!-- Privacy Policy Section -->
+        <div id="privacy" class="content-section active">
+            <div class="card">
+                <h2>Privacy Policy</h2>
+                <p><strong>Effective Date:</strong> November 30, 2025</p>
+                <p><strong>Last Updated:</strong> November 30, 2025</p>
+                
+                <div class="highlight">
+                    <p><strong>TubeTrend AI</strong> is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
+                </div>
+
+                <h3>1. Information We Collect</h3>
+                <p>TubeTrend AI operates on a privacy-first principle. We collect minimal data necessary for app functionality:</p>
+                <ul>
+                    <li><strong>API Keys:</strong> YouTube Data API, Gemini AI API, and optional Google Trends API keys that you provide</li>
+                    <li><strong>Usage Data:</strong> API call counts and quota tracking for analytics purposes</li>
+                    <li><strong>Search Queries:</strong> Keywords and topics you enter to generate suggestions</li>
+                    <li><strong>App Preferences:</strong> Settings and configurations you customize</li>
+                </ul>
+
+                <h3>2. How We Store Your Data</h3>
+                <div class="highlight">
+                    <p><strong>100% Local Storage:</strong> All your data is stored locally on your device using Flutter's secure storage mechanisms. We do NOT:</p>
+                    <ul>
+                        <li>Upload your API keys to any server</li>
+                        <li>Sync your data to the cloud</li>
+                        <li>Share your information with third parties</li>
+                        <li>Track your activity outside the app</li>
+                    </ul>
+                </div>
+
+                <h3>3. Third-Party Services</h3>
+                <p>TubeTrend AI integrates with the following external services:</p>
+                <ul>
+                    <li><strong>YouTube Data API v3:</strong> To fetch video statistics and trending content (Google's Privacy Policy applies)</li>
+                    <li><strong>Google Gemini AI:</strong> To generate video titles, hashtags, and descriptions (Google's Privacy Policy applies)</li>
+                    <li><strong>Google Trends (Optional):</strong> For trending insights if you enable this feature</li>
+                </ul>
+                <p>When you use these services, your API requests are sent directly from your device to their servers. We do not intercept or store this communication.</p>
+
+                <h3>4. Data Security</h3>
+                <p>We implement industry-standard security measures:</p>
+                <ul>
+                    <li>Encrypted local storage for API keys</li>
+                    <li>No data transmission to external servers (except API calls you initiate)</li>
+                    <li>Open-source codebase for transparency and auditing</li>
+                    <li>Regular security updates and patches</li>
+                </ul>
+
+                <h3>5. Your Rights</h3>
+                <p>You have complete control over your data:</p>
+                <ul>
+                    <li><strong>Access:</strong> View all stored data in the app's Settings and Analytics screens</li>
+                    <li><strong>Deletion:</strong> Delete API keys and usage data anytime from Settings</li>
+                    <li><strong>Portability:</strong> Export your data (feature coming soon)</li>
+                    <li><strong>Opt-Out:</strong> Uninstall the app to remove all local data</li>
+                </ul>
+
+                <h3>6. Children's Privacy</h3>
+                <p>TubeTrend AI is not intended for users under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with information, please contact us immediately.</p>
+
+                <h3>7. Changes to This Policy</h3>
+                <p>We may update this Privacy Policy periodically. Changes will be posted within the app and on our website. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+
+                <h3>8. Contact Us</h3>
+                <p>For privacy-related questions or concerns, please contact us at:</p>
+                <div class="highlight">
+                    <p><strong>Developer Email:</strong>rajahuzaifa015166@gmail.com</p>
+                    <p><strong>GitHub:</strong> pending</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms & Conditions Section -->
+        <div id="terms" class="content-section">
+            <div class="card">
+                <h2>Terms and Conditions</h2>
+                <p><strong>Effective Date:</strong> November 30, 2025</p>
+                <p><strong>Last Updated:</strong> November 30, 2025</p>
+                
+                <div class="highlight">
+                    <p>Welcome to <strong>TubeTrend AI</strong>. By downloading, installing, or using our app, you agree to be bound by these Terms and Conditions. Please read them carefully.</p>
+                </div>
+
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing or using TubeTrend AI, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions, as well as our Privacy Policy. If you do not agree, please do not use the app.</p>
+
+                <h3>2. License and Usage Rights</h3>
+                <p>TubeTrend AI grants you a limited, non-exclusive, non-transferable, revocable license to use the app for personal, non-commercial purposes. You may NOT:</p>
+                <ul>
+                    <li>Reverse engineer, decompile, or disassemble the app</li>
+                    <li>Rent, lease, or redistribute the app without permission</li>
+                    <li>Use the app for illegal or unauthorized purposes</li>
+                    <li>Attempt to gain unauthorized access to any part of the app or its services</li>
+                </ul>
+
+                <h3>3. API Key Requirements</h3>
+                <div class="highlight">
+                    <p><strong>Important:</strong> TubeTrend AI requires you to provide your own API keys from:</p>
+                    <ul>
+                        <li>YouTube Data API v3 (Required)</li>
+                        <li>Google Gemini AI (Required)</li>
+                        <li>Google Trends API (Optional)</li>
+                    </ul>
+                    <p>You are responsible for:</p>
+                    <ul>
+                        <li>Obtaining and managing your API keys</li>
+                        <li>Complying with each service's Terms of Service</li>
+                        <li>Monitoring your API usage and quota limits</li>
+                        <li>Any costs associated with API usage beyond free tiers</li>
+                    </ul>
+                </div>
+
+                <h3>4. User Responsibilities</h3>
+                <p>You agree to:</p>
+                <ul>
+                    <li>Provide accurate information when using the app</li>
+                    <li>Keep your API keys confidential and secure</li>
+                    <li>Use the app in compliance with all applicable laws and regulations</li>
+                    <li>Not use the app to generate spam, misleading content, or violate YouTube's policies</li>
+                    <li>Not abuse or overload third-party APIs through the app</li>
+                </ul>
+
+                <h3>5. AI-Generated Content</h3>
+                <p>TubeTrend AI uses Google Gemini AI to generate video titles, hashtags, and descriptions. Please note:</p>
+                <ul>
+                    <li>AI-generated content is for suggestion purposes only</li>
+                    <li>You are responsible for reviewing and editing all suggestions before use</li>
+                    <li>We do not guarantee the accuracy, appropriateness, or effectiveness of AI suggestions</li>
+                    <li>You must ensure all content complies with YouTube's Community Guidelines and Terms of Service</li>
+                </ul>
+
+                <h3>6. Disclaimer of Warranties</h3>
+                <div class="highlight">
+                    <p>TubeTrend AI is provided "AS IS" and "AS AVAILABLE" without warranties of any kind, either express or implied, including but not limited to:</p>
+                    <ul>
+                        <li>Accuracy or reliability of AI-generated suggestions</li>
+                        <li>Uninterrupted or error-free operation</li>
+                        <li>Compatibility with all devices or operating systems</li>
+                        <li>Achievement of specific results or outcomes</li>
+                    </ul>
+                </div>
+
+                <h3>7. Limitation of Liability</h3>
+                <p>To the maximum extent permitted by law, TubeTrend AI and its developers shall NOT be liable for:</p>
+                <ul>
+                    <li>Any direct, indirect, incidental, or consequential damages</li>
+                    <li>Loss of profits, data, or business opportunities</li>
+                    <li>Issues arising from third-party API services (YouTube, Gemini, Google Trends)</li>
+                    <li>Suspension or termination of your YouTube account due to content generated by the app</li>
+                    <li>API quota exhaustion or overage charges</li>
+                </ul>
+
+                <h3>8. Third-Party Services</h3>
+                <p>TubeTrend AI integrates with third-party services. You acknowledge that:</p>
+                <ul>
+                    <li>These services have their own Terms of Service and Privacy Policies</li>
+                    <li>We are not responsible for changes, interruptions, or discontinuation of these services</li>
+                    <li>API rate limits and quotas are determined by the service providers, not by us</li>
+                </ul>
+
+                <h3>9. Intellectual Property</h3>
+                <p>TubeTrend AI is open-source software licensed under the MIT License. However:</p>
+                <ul>
+                    <li>The TubeTrend AI name, logo, and branding are protected trademarks</li>
+                    <li>User-generated content and AI suggestions belong to you</li>
+                    <li>We do not claim ownership of any content you create using the app</li>
+                </ul>
+
+                <h3>10. Updates and Modifications</h3>
+                <p>We reserve the right to:</p>
+                <ul>
+                    <li>Update the app with new features, bug fixes, or security patches</li>
+                    <li>Modify these Terms and Conditions at any time</li>
+                    <li>Temporarily suspend the app for maintenance or improvements</li>
+                    <li>Discontinue the app or specific features with reasonable notice</li>
+                </ul>
+
+                <h3>11. Termination</h3>
+                <p>You may terminate your use of TubeTrend AI at any time by uninstalling the app. We may terminate or suspend your access if you violate these Terms and Conditions.</p>
+
+                <h3>12. Governing Law</h3>
+                <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+
+                <h3>13. Contact Information</h3>
+                <p>For questions, support, or feedback regarding these Terms and Conditions:</p>
+                <div class="highlight">
+                    <p><strong>Developer Email:</strong>rajahuzaifa01566@gmail.com</p>
+                    <p><strong>GitHub:</strong> pending</p>
+                    <p><strong>Website:</strong> under work</p>
+                </div>
+
+                <h3>14. Acknowledgment</h3>
+                <div class="highlight">
+                    <p>By using TubeTrend AI, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions and our Privacy Policy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>© 2025 TubeTrend AI. All rights reserved.</strong></p>
+            <div class="contact-info">
+                <p>📧 <a href="mailto:support@tubetrendai.com">rajahuzaifa015166@gmail.com</a></p>
+                <p>🌐 <a href="#">under work</a></p>
+                <p>💻 <a href="#"></a>paid</a></p>
+            </div>
+            <p style="margin-top: 1rem; color: #999;">Professional YouTube Assistant with AI-Powered Insights</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 3D Canvas Animation
+        const canvas = document.getElementById('canvas3d');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 3D Elements
+        class Shape3D {
+            constructor(x, y, z, type, size, color) {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.type = type;
+                this.size = size;
+                this.color = color;
+                this.rotation = { x: 0, y: 0, z: 0 };
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 0.5,
+                    y: (Math.random() - 0.5) * 0.5,
+                    z: (Math.random() - 0.5) * 0.2
+                };
+                this.rotationSpeed = {
+                    x: (Math.random() - 0.5) * 0.02,
+                    y: (Math.random() - 0.5) * 0.02,
+                    z: (Math.random() - 0.5) * 0.02
+                };
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.z += this.velocity.z;
+
+                this.rotation.x += this.rotationSpeed.x;
+                this.rotation.y += this.rotationSpeed.y;
+                this.rotation.z += this.rotationSpeed.z;
+
+                // Wrap around screen
+                if (this.x < -100) this.x = canvas.width + 100;
+                if (this.x > canvas.width + 100) this.x = -100;
+                if (this.y < -100) this.y = canvas.height + 100;
+                if (this.y > canvas.height + 100) this.y = -100;
+                if (this.z < -500) this.z = 500;
+                if (this.z > 500) this.z = -500;
+            }
+
+            draw() {
+                const scale = 500 / (500 + this.z);
+                const x2d = this.x * scale + canvas.width / 2;
+                const y2d = this.y * scale + canvas.height / 2;
+                const size = this.size * scale;
+
+                ctx.save();
+                ctx.translate(x2d, y2d);
+                ctx.globalAlpha = 0.6 * (1 - Math.abs(this.z) / 500);
+
+                if (this.type === 'cube') {
+                    this.drawCube(size);
+                } else if (this.type === 'sphere') {
+                    this.drawSphere(size);
+                } else if (this.type === 'pyramid') {
+                    this.drawPyramid(size);
+                }
+
+                ctx.restore();
+            }
+
+            drawCube(size) {
+                ctx.rotate(this.rotation.z);
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-size/2, -size/2, size, size);
+                
+                // Inner square for 3D effect
+                const offset = size * 0.2;
+                ctx.strokeRect(-size/2 + offset, -size/2 + offset, size - offset*2, size - offset*2);
+                
+                // Connect corners
+                ctx.beginPath();
+                ctx.moveTo(-size/2, -size/2);
+                ctx.lineTo(-size/2 + offset, -size/2 + offset);
+                ctx.moveTo(size/2, -size/2);
+                ctx.lineTo(size/2 - offset, -size/2 + offset);
+                ctx.moveTo(-size/2, size/2);
+                ctx.lineTo(-size/2 + offset, size/2 - offset);
+                ctx.moveTo(size/2, size/2);
+                ctx.lineTo(size/2 - offset, size/2 - offset);
+                ctx.stroke();
+            }
+
+            drawSphere(size) {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(0, 0, size/2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add shine effect
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.beginPath();
+                ctx.arc(-size/6, -size/6, size/4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            drawPyramid(size) {
+                ctx.rotate(this.rotation.z);
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, -size/2);
+                ctx.lineTo(-size/2, size/2);
+                ctx.lineTo(size/2, size/2);
+                ctx.closePath();
+                ctx.stroke();
+                
+                // Back lines for 3D effect
+                ctx.beginPath();
+                ctx.moveTo(0, -size/2);
+                ctx.lineTo(0, 0);
+                ctx.moveTo(-size/2, size/2);
+                ctx.lineTo(0, 0);
+                ctx.moveTo(size/2, size/2);
+                ctx.lineTo(0, 0);
+                ctx.stroke();
+            }
+        }
+
+        // Create shapes
+        const shapes = [];
+        const colors = ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(200, 150, 255, 0.8)'];
+        const types = ['cube', 'sphere', 'pyramid'];
+
+        for (let i = 0; i < 15; i++) {
+            shapes.push(new Shape3D(
+                Math.random() * canvas.width - canvas.width/2,
+                Math.random() * canvas.height - canvas.height/2,
+                Math.random() * 1000 - 500,
+                types[Math.floor(Math.random() * types.length)],
+                30 + Math.random() * 40,
+                colors[Math.floor(Math.random() * colors.length)]
+            ));
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            shapes.forEach(shape => {
+                shape.update();
+                shape.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
